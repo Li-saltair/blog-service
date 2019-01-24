@@ -1,6 +1,6 @@
 const router = require('koa-router')()
-const model = require('./../model/dbconfig')
-
+const model = require('./../model/article')
+//需要修改
 router.prefix('/article')
 /*
 router.get('/get_all_article', async (ctx, next) => {
@@ -9,7 +9,7 @@ router.get('/get_all_article', async (ctx, next) => {
   })
 })*/
 
-router.get('/string', async (ctx, next) => {
+router.get('/', async (ctx, next) => {
   /*const user = {
     name:'老李',
     birthday:'1993-9-13',
@@ -21,8 +21,14 @@ router.get('/string', async (ctx, next) => {
       console.log(r)
     }
     
-  })*/
-  ctx.body = 'koa2 string'
+  })
+  ctx.body = 'koa2 string'*/
+
+  //console.log(model.getPerson())
+  //接口正确调用方式
+  //ctx.body = await model.getPerson()
+  ctx.body = await model.getAllArticle()
+  
 })
 
 router.get('/json', async (ctx, next) => {
@@ -32,20 +38,27 @@ router.get('/json', async (ctx, next) => {
 })
 
 router.get('/get_all_article', async (ctx, next)=>{
-  var r = await model.personModel.find().then(r=>{
+  let r = await model.personModel.find().then((err,r)=>{
     if(r){
       return {
         success:true,
         data:r
       }
+    }else {
+      return {
+        success:false,
+        msg:err
+      }
     }
   })
-  
-  ctx.set('Access-Control-Allow-Origin', '*');
-  ctx.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-  ctx.set('Access-Control-Allow-Credentials', 'true');
   ctx.body = r
-  //return r
 })
+
+router.get('/get_one_article_by_id', async (ctx, next)=>{
+  
+  ctx.body = r
+})
+
+
 
 module.exports = router

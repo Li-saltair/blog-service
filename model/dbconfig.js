@@ -43,9 +43,18 @@ const personSchema = new Schema({
     required: true
   }
 });
+//文章标签，可能需要新增字段
+const labelSchema = new Schema({
+  title: {
+    type: String,
+    required: true
+  }
+});
 
 const article = mongoose.model("article", articleSchema, "article");
 const person = mongoose.model("person", personSchema, "person");
+const label = mongoose.model("label", labelSchema, "label");
 
 module.exports.articleModel = article;
 module.exports.personModel = person;
+module.exports.labelModel = label;

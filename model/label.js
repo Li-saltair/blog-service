@@ -1,15 +1,22 @@
-const model = require('./dbconfig').articleModel        //article的model
+const model = require('./dbconfig').labelModel        //article的model
 
 //文章相关接口
 
-//获取全部文章
-module.exports.getAllArticle = async function(){
-    const r = await model.find()
+//获取全部标签
+module.exports.getAllLabel = function(){
+    const r = model.find().then((err,r)=>{
+        if(err){
+            console.error.bind(console, "connection error:")
+        }
+        if(r){
+            return r
+        }
+    })
     return r
 }
 
-//根据ID获取文章
-module.exports.getOneArticleById = function(condition){
+//根据ID获取标签
+module.exports.getOneLabelById = function(condition){
     const r = model.findById(condition).then((err,r)=>{
         if(r){
           return {
@@ -26,7 +33,7 @@ module.exports.getOneArticleById = function(condition){
     return r
 }
 //根据条件获取文章
-module.exports.getArticleByCondition = function(condition){
+module.exports.getLabelByCondition = function(condition){
     const r = model.find(condition).then((err,r) => {
         if(r){
             return {
